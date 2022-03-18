@@ -8,7 +8,9 @@
 static const uint8_t SCHEDULER_SIZE = 32;
 typedef struct functionScheduler_t {
 	void* (*func[SCHEDULER_SIZE])(void*);
+	void* funcParams[SCHEDULER_SIZE];
 	uint8_t funcPriority[SCHEDULER_SIZE];
+	
 	uint8_t functionCount;
 } functionScheduler; 
 
