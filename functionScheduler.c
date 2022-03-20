@@ -17,8 +17,8 @@ void insertFunction(void* function, void* param, uint8_t priority) {
 	}
 }
 
-void* (*readFunction(void))(void*) {
-	void* returnPtr = NULL;
+void readFunction(funcQueueObj *funcObj) {
+	
 	if (scheduler->functionCount > 0) {
 		uint8_t highestPriority = 0;
 		uint8_t highestPriorityIdx = 0;
@@ -29,11 +29,12 @@ void* (*readFunction(void))(void*) {
 			}
 		
 		}
-		returnPtr = scheduler->funcQueue[highestPriorityIdx].func;
+		funcObj->func = scheduler->funcQueue[highestPriorityIdx].func;
+		funcObj->funcParam = scheduler->funcQueue[highestPriorityIdx].funcParam;
 		scheduler->funcQueue[highestPriorityIdx].func = NULL;
 		scheduler->funcQueue[highestPriorityIdx].funcPriority = 0;
 	}
-	return returnPtr;
+	return;
 	
 }
 
@@ -48,12 +49,12 @@ void runScheduler(void) {
 		scheduler->funcQueue[i].func = NULL;
 		scheduler->funcQueue[i].funcPriority = 0;
 	}
-	void* (*functionPtr)(void*) = NULL;
+	funcQueueObj funcPtrObj;
 	while(1) {
 		if(scheduler->functionCount > 0) {
-			functionPtr = readFunction();
-			if(functionPtr != NULL) {
-				
+			readFunction(&funcPtrObj);
+			if (funcPtrObj.func != NULL) {
+				(*funcPtrObj.func)(funcPtrObj.funcParam);
 			}
 		}
 	}

@@ -18,6 +18,6 @@ typedef struct {
 
 
 void insertFunction(void*, void*, uint8_t);
-void* (*readFunction(void))(void*);
+void readFunction(funcQueueObj*);
 void runScheduler(void);
 #endif 
