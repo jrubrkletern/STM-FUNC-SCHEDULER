@@ -3,9 +3,9 @@
 
 #include <stdio.h>
 #include <stdint.h>
-#include <stdatomic.h>
 
-static const uint8_t SCHEDULER_SIZE = 32;
+#define SCHEDULER_SIZE 32
+
 typedef struct {
 	void* (*func)(void*);
 	void* funcParam;
@@ -13,7 +13,7 @@ typedef struct {
 } funcQueueObj;
 typedef struct {
 	funcQueueObj funcQueue[SCHEDULER_SIZE];	
-	uint8_t functionCount;
+	_Atomic volatile uint8_t functionCount;
 } functionScheduler; 
 
 
