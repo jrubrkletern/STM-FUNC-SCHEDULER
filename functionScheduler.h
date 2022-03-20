@@ -6,16 +6,18 @@
 #include <stdatomic.h>
 
 static const uint8_t SCHEDULER_SIZE = 32;
-typedef struct functionScheduler_t {
-	void* (*func[SCHEDULER_SIZE])(void*);
-	void* funcParams[SCHEDULER_SIZE];
-	uint8_t funcPriority[SCHEDULER_SIZE];
-	
+typedef struct {
+	void* (*func)(void*);
+	void* funcParam;
+	uint8_t funcPriority;
+} funcQueueObj;
+typedef struct {
+	funcQueueObj funcQueue[SCHEDULER_SIZE];	
 	uint8_t functionCount;
 } functionScheduler; 
 
 
-void insertFunction(void*, uint8_t);
-void* readFunction(void);
+void insertFunction(void*, void*, uint8_t);
+void* (*readFunction(void))(void*);
 void runScheduler(void);
 #endif 

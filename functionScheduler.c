@@ -5,11 +5,11 @@
 
 static functionScheduler *scheduler;
 
-void insertFunction(void* function, uint8_t priority) {
+void insertFunction(void* function, void* param, uint8_t priority) {
 	for(int i = 0; i < SCHEDULER_SIZE; i++) {
-		if (scheduler->func[i] == NULL) {
-			scheduler->func[i] = function;
-			scheduler->funcPriority[i] = priority;
+		if (scheduler->funcQueue[i].func == NULL) {
+			scheduler->funcQueue[i].func = function;
+			scheduler->funcQueue[i].funcPriority = priority;
 			scheduler->functionCount++;
 			break;
 		}
@@ -17,21 +17,21 @@ void insertFunction(void* function, uint8_t priority) {
 	}
 }
 
-void* readFunction(void) {
+void* (*readFunction(void))(void*) {
 	void* returnPtr = NULL;
 	if (scheduler->functionCount > 0) {
 		uint8_t highestPriority = 0;
 		uint8_t highestPriorityIdx = 0;
 		for (int i = 0; i < SCHEDULER_SIZE; i++) {
-			if (scheduler->funcPriority[i] > highestPriority) {
-				highestPriority = scheduler->funcPriority[i];
+			if (scheduler->funcQueue[i].funcPriority > highestPriority) {
+				highestPriority = scheduler->funcQueue[i].funcPriority;
 				highestPriorityIdx = i;		
 			}
 		
 		}
-		returnPtr = scheduler->func[highestPriorityIdx];
-		scheduler->func[highestPriorityIdx] = 0;
-		scheduler->funcPriority[highestPriorityIdx] = 0;
+		returnPtr = scheduler->funcQueue[highestPriorityIdx].func;
+		scheduler->funcQueue[highestPriorityIdx].func = NULL;
+		scheduler->funcQueue[highestPriorityIdx].funcPriority = 0;
 	}
 	return returnPtr;
 	
@@ -45,13 +45,16 @@ void runScheduler(void) {
 	
 	scheduler->functionCount = 0;
 	for(int i = 0; i < SCHEDULER_SIZE; i++) {
-		scheduler->func[i] = NULL;
-		scheduler->funcPriority[i] = 0;
+		scheduler->funcQueue[i].func = NULL;
+		scheduler->funcQueue[i].funcPriority = 0;
 	}
-	void* functionPtr = NULL;
+	void* (*functionPtr)(void*) = NULL;
 	while(1) {
 		if(scheduler->functionCount > 0) {
 			functionPtr = readFunction();
+			if(functionPtr != NULL) {
+				
+			}
 		}
 	}
 
