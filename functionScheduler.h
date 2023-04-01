@@ -7,13 +7,19 @@
 #define SCHEDULER_SIZE 32
 
 typedef struct {
+	uint8_t funcCount;
+	funcQueueObj* head;
+	funcQueueObj* tail;
+} queueData;
+typedef struct {
 	void* (*func)(void*);
 	void* funcParam;
-	uint8_t funcPriority;
 } funcQueueObj;
+
 typedef struct {
-	funcQueueObj funcQueue[SCHEDULER_SIZE];	
-	_Atomic volatile uint8_t functionCount;
+	funcQueueObj funcQueue[10][SCHEDULER_SIZE];
+	_Atomic volatile queueData queueData[10];
+
 } functionScheduler; 
 
 

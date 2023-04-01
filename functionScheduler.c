@@ -37,22 +37,19 @@ void readFunction(funcQueueObj *funcObj) {
 		scheduler->funcQueue[highestPriorityIdx].func = NULL;
 		scheduler->funcQueue[highestPriorityIdx].funcPriority = 0;
 		scheduler->functionCount--; //NEEDS TO BE ATOMIC
+		return;
 	}
+	funcObj->func = NULL;
 	return;
 	
 }
 
 void runScheduler(void) {
-	scheduler = malloc(sizeof(functionScheduler));
+	scheduler = calloc(sizeof(functionScheduler));
 	if(scheduler == NULL) {
 		return;
 	}
-	
-	scheduler->functionCount = 0;
-	for(int i = 0; i < SCHEDULER_SIZE; i++) {
-		scheduler->funcQueue[i].func = NULL;
-		scheduler->funcQueue[i].funcPriority = 0;
-	}
+
 
 	funcQueueObj funcPtrObj;
 	while(1) {
