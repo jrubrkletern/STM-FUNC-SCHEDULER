@@ -6,7 +6,14 @@
 static functionScheduler *scheduler;
 
 void insertFunction(void* function, void* param, uint8_t priority) {
-	if (scheduler->functionCount[priority] < SCHEDULER_SIZE) {
+	uint8_t priorityIdx = priority - 1;
+	if (scheduler->queueData[priorityIdx].funcCount < SCHEDULER_SIZE) {
+		if(scheduler->queueData[priorityIdx].tail + 1 = SCHEDULER_SIZE)
+			scheduler->queueData[priorityIdx].tail = 0;
+			scheduler->funcQueue[priorityIdx][tail].func = function;
+			scheduler->funcQueue[priorityIdx][tail].funcParam = param; //need proper storage for parameters
+			scheduler->queueData[priorityIdx].funcCount++;
+		
 		/* for (int i = 0; i < SCHEDULER_SIZE; i++) {
 			if (scheduler->funcQueue[i].func == NULL) {
 				scheduler->funcQueue[i].func = function;
