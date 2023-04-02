@@ -15,7 +15,6 @@ void insertFunction(void* function, void* param, uint8_t priority) {
 			scheduler->queueData[priorityIdx].tail++;
 			}
 			scheduler->queueData[priorityIdx].funcCount++;
-			scheduler->queueData[priorityIdx].tail = 0;
 			scheduler->funcQueue[priorityIdx][tail].func = function;
 			if(PARAM_STORAGE_EN) {
 				memcpy(scheduler->paramData[priorityIdx][tail], param, MAX_PARAM_SIZE); 
