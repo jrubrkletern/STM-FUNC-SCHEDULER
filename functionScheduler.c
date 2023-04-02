@@ -6,8 +6,8 @@
 static functionScheduler *scheduler;
 
 void insertFunction(void* function, void* param, uint8_t priority) {
-	if (scheduler->functionCount < SCHEDULER_SIZE) {
-		for (int i = 0; i < SCHEDULER_SIZE; i++) {
+	if (scheduler->functionCount[priority] < SCHEDULER_SIZE) {
+		/* for (int i = 0; i < SCHEDULER_SIZE; i++) {
 			if (scheduler->funcQueue[i].func == NULL) {
 				scheduler->funcQueue[i].func = function;
 				scheduler->funcQueue[i].funcPriority = priority;
@@ -16,7 +16,7 @@ void insertFunction(void* function, void* param, uint8_t priority) {
 				break;
 			}
 		
-		}
+		} */
 	}
 }
 
