@@ -14,16 +14,7 @@ void insertFunction(void* function, void* param, uint8_t priority) {
 			scheduler->funcQueue[priorityIdx][tail].funcParam = param; //need proper storage for parameters
 			scheduler->queueData[priorityIdx].funcCount++;
 		
-		/* for (int i = 0; i < SCHEDULER_SIZE; i++) {
-			if (scheduler->funcQueue[i].func == NULL) {
-				scheduler->funcQueue[i].func = function;
-				scheduler->funcQueue[i].funcPriority = priority;
-				scheduler->functionCount++;
-				
-				break;
-			}
 		
-		} */
 	}
 }
 
