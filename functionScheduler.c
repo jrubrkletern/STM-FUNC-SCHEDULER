@@ -40,17 +40,17 @@ void readFunction(funcQueueObj *funcObj) {
 			scheduler->queueData[priorityIdx].funcCount--; //NEEDS TO BE ATOMIC
 			
 		}
+		
+	}
+		funcObj->func = NULL;
 		return;
 
-	}
-	
 	
 		return;
 	}
-	funcObj->func = NULL;
-	return;
+
 	
-}
+
 
 void runScheduler(void) {
 	scheduler = calloc(sizeof(functionScheduler));
@@ -71,12 +71,12 @@ void runScheduler(void) {
 
 	funcQueueObj funcPtrObj;
 	while(1) {
-		if(scheduler->functionCount > 0) {
+		
 			readFunction(&funcPtrObj);
 			if (funcPtrObj.func != NULL) {
 				(*funcPtrObj.func)(funcPtrObj.funcParam);
 			}
-		}
+		
 	}
 
 	
