@@ -15,9 +15,9 @@ void insertFunction(void* function, void* param, uint8_t priority) {
 			scheduler->queueData[priorityIdx].tail++;
 			}
 			scheduler->queueData[priorityIdx].funcCount++;
-			scheduler->funcQueue[priorityIdx][tail].func = function;
+			scheduler->funcQueue[priorityIdx][scheduler->queueData[priorityIdx].tail].func = function;
 			if(PARAM_STORAGE_EN) {
-				memcpy(scheduler->paramData[priorityIdx][tail], param, MAX_PARAM_SIZE); 
+				memcpy(scheduler->paramData[priorityIdx][scheduler->queueData[priorityIdx].tail], param, MAX_PARAM_SIZE); 
 			}
 			//scheduler->funcQueue[priorityIdx][tail].funcParam = param; //need proper storage for parameters
 			
@@ -28,18 +28,20 @@ void insertFunction(void* function, void* param, uint8_t priority) {
 
 void readFunction(funcQueueObj *funcObj) {
 	
-	if (scheduler->functionCount > 0) {
-		uint8_t highestPriority = 0;
-		uint8_t highestPriorityIdx = 0;
-		for (int i = 0; i < SCHEDULER_SIZE; i++) {
-			if (scheduler->funcQueue[i].funcPriority > highestPriority) {
-				highestPriority = scheduler->funcQueue[i].funcPriority;
-				highestPriorityIdx = i;		
+	for(int i = 0; i < 10; i++) {
+		if(scheduler->queueData[i].funcCount > 0) {
+			funcObj->func = scheduler->funcQueue[i][scheduler->queueData[priorityIdx].head].func;
+			scheduler->funcQueue[i][scheduler->queueData[priorityIdx].head].func = NULL;
+			f(scheduler->queueData[priorityIdx].head + 1 == SCHEDULER_SIZE) {
+			scheduler->queueData[priorityIdx].head = 0;
+			} else {
+			scheduler->queueData[priorityIdx].head++;
 			}
-		
+			scheduler->queueData[priorityIdx].funcCount--;
+			
 		}
-		funcObj->func = scheduler->funcQueue[highestPriorityIdx].func;
-		funcObj->funcParam = scheduler->funcQueue[highestPriorityIdx].funcParam;
+	}
+	
 		scheduler->funcQueue[highestPriorityIdx].func = NULL;
 		scheduler->funcQueue[highestPriorityIdx].funcPriority = 0;
 		scheduler->functionCount--; //NEEDS TO BE ATOMIC
