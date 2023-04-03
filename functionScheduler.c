@@ -14,7 +14,7 @@ void insertFunction(void* function, void* param, uint8_t priority) {
 			} else {
 			scheduler->queueData[priorityIdx].tail++;
 			}
-			scheduler->queueData[priorityIdx].funcCount++;
+			scheduler->queueData[priorityIdx].funcCount++; //NEEDS TO BE ATOMIC
 			scheduler->funcQueue[priorityIdx][scheduler->queueData[priorityIdx].tail].func = function;
 			if(PARAM_STORAGE_EN) {
 				memcpy(scheduler->paramData[priorityIdx][scheduler->queueData[priorityIdx].tail], param, MAX_PARAM_SIZE); 
@@ -32,19 +32,19 @@ void readFunction(funcQueueObj *funcObj) {
 		if(scheduler->queueData[i].funcCount > 0) {
 			funcObj->func = scheduler->funcQueue[i][scheduler->queueData[priorityIdx].head].func;
 			scheduler->funcQueue[i][scheduler->queueData[priorityIdx].head].func = NULL;
-			f(scheduler->queueData[priorityIdx].head + 1 == SCHEDULER_SIZE) {
-			scheduler->queueData[priorityIdx].head = 0;
+			if(scheduler->queueData[priorityIdx].head + 1 == SCHEDULER_SIZE) {
+				scheduler->queueData[priorityIdx].head = 0;
 			} else {
-			scheduler->queueData[priorityIdx].head++;
+				scheduler->queueData[priorityIdx].head++;
 			}
-			scheduler->queueData[priorityIdx].funcCount--;
+			scheduler->queueData[priorityIdx].funcCount--; //NEEDS TO BE ATOMIC
 			
 		}
+		return;
+
 	}
 	
-		scheduler->funcQueue[highestPriorityIdx].func = NULL;
-		scheduler->funcQueue[highestPriorityIdx].funcPriority = 0;
-		scheduler->functionCount--; //NEEDS TO BE ATOMIC
+	
 		return;
 	}
 	funcObj->func = NULL;
