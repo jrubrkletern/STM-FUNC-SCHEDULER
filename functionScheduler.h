@@ -3,14 +3,15 @@
 
 #include <stdio.h>
 #include <stdint.h>
+#include <stdatomic.h>
 
 #define SCHEDULER_SIZE 32
 #define MAX_PARAM_SIZE 16
 #define PARAM_STORAGE_EN true
 typedef struct {
-	uint8_t funcCount;
-	uint8_t head;
-	uint8_t tail;
+	_Atomic unsigned char funcCount;
+	_Atomic unsigned char head;
+	_Atomic unsigned char tail;
 } queueData;
 typedef struct {
 	void* (*func)(void*);
@@ -20,7 +21,7 @@ typedef struct {
 typedef struct {
 	funcQueueObj funcQueue[10][SCHEDULER_SIZE];
 	void* paramData[10][SCHEDULER_SIZE];
-	_Atomic volatile queueData queueData[10];
+	volatile queueData queueData[10];
 	
 
 } functionScheduler; 

@@ -11,14 +11,14 @@ void insertFunction(void* function, void* param, uint8_t priority) {
 		
 		if(scheduler->queueData[priorityIdx].tail + 1 == SCHEDULER_SIZE) {
 			scheduler->queueData[priorityIdx].tail = 0;
-			} else {
+		} else {
 			scheduler->queueData[priorityIdx].tail++;
-			}
-			scheduler->queueData[priorityIdx].funcCount++; //NEEDS TO BE ATOMIC
-			scheduler->funcQueue[priorityIdx][scheduler->queueData[priorityIdx].tail].func = function;
-			if(PARAM_STORAGE_EN) {
-				memcpy(scheduler->paramData[priorityIdx][scheduler->queueData[priorityIdx].tail], param, MAX_PARAM_SIZE); 
-			}
+		}
+		scheduler->queueData[priorityIdx].funcCount++; //NEEDS TO BE ATOMIC
+		scheduler->funcQueue[priorityIdx][scheduler->queueData[priorityIdx].tail].func = function;
+		if(PARAM_STORAGE_EN) {
+			memcpy(scheduler->paramData[priorityIdx][scheduler->queueData[priorityIdx].tail], param, MAX_PARAM_SIZE); 
+		}
 			//scheduler->funcQueue[priorityIdx][tail].funcParam = param; //need proper storage for parameters
 			
 		
